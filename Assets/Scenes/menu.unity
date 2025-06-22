@@ -1362,7 +1362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dce9c75866bc44cc986123fa8d6cfb4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {fileID: 1412383542}
+  Input: {fileID: 1412383542}
   BestScore: {fileID: 1222687366}
 --- !u!1 &1222687364
 GameObject:

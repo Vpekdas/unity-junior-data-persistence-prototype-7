@@ -12,40 +12,40 @@ using System.Linq;
 [Serializable]
 public class PlayerList
 {
-    public List<Player> players;
+    public List<Player> Players;
 }
 
 [Serializable]
 public class Player
 {
-    public string name;
-    public int score;
+    public string Name;
+    public int Score;
 }
 public class HandleScore : MonoBehaviour
 {
 
-    public static HandleScore Instance;
+    public static HandleScore s_Instance;
     private Player _player;
     private PlayerList _playerList;
     private string _playerListJson;
 
     private void Awake()
     {
-        if (Instance != null)
+        if (s_Instance != null)
         {
             Destroy(gameObject);
             return;
         }
 
-        Instance = this;
+        s_Instance = this;
         _player = new()
         {
-            name = "",
-            score = 0
+            Name = "",
+            Score = 0
         };
         _playerList = new PlayerList()
         {
-            players = new List<Player>()
+            Players = new List<Player>()
         };
         _playerListJson = Application.persistentDataPath + "/BestPlayer.json";
         LoadJsonPlayerList();
@@ -55,22 +55,22 @@ public class HandleScore : MonoBehaviour
 
     public void SetPlayerScore(int score)
     {
-        _player.score = score;
+        _player.Score = score;
     }
 
     public void SetPlayerName(string name)
     {
-        _player.name = name;
+        _player.Name = name;
     }
 
     public int GetPlayerScore()
     {
-        return _player.score;
+        return _player.Score;
     }
 
     public string GetPlayerName()
     {
-        return _player.name;
+        return _player.Name;
     }
 
     public void SaveIntoJson()
@@ -84,16 +84,16 @@ public class HandleScore : MonoBehaviour
     {
         string json = File.ReadAllText(_playerListJson);
         PlayerList playerList = JsonUtility.FromJson<PlayerList>(json);
-        if (playerList.players.Count >= 1)
+        if (playerList.Players.Count >= 1)
         {
-            return playerList.players[0];
+            return playerList.Players[0];
         }
         else
         {
             return new Player()
             {
-                name = "",
-                score = 0,
+                Name = "",
+                Score = 0,
             };
         }
     }
@@ -106,13 +106,13 @@ public class HandleScore : MonoBehaviour
 
     public void AddPlayerInList(Player player)
     {
-        List<Player> tempList = _playerList.players.Where(p => p != null).ToList();
+        List<Player> tempList = _playerList.Players.Where(p => p != null).ToList();
 
-        Player existing = tempList.FirstOrDefault(p => p.name == player.name);
+        Player existing = tempList.FirstOrDefault(p => p.Name == player.Name);
 
         if (existing != null)
         {
-            if (player.score > existing.score)
+            if (player.Score > existing.Score)
             {
                 tempList.Remove(existing);
                 tempList.Add(player);
@@ -123,12 +123,12 @@ public class HandleScore : MonoBehaviour
             tempList.Add(player);
         }
 
-        tempList = tempList.OrderByDescending(p => p.score).ToList();
+        tempList = tempList.OrderByDescending(p => p.Score).ToList();
 
         if (tempList.Count > 10)
             tempList = tempList.Take(10).ToList();
 
-        _playerList.players = tempList.ToList();
+        _playerList.Players = tempList.ToList();
 
         SaveIntoJson();
     }

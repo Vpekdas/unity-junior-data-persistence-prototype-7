@@ -11,23 +11,23 @@ using UnityEditor;
 public class MenuUIHandler : MonoBehaviour
 {
 
-    public TMP_InputField input;
+    public TMP_InputField Input;
 
     public TextMeshProUGUI BestScore;
 
 
     public void Start()
     {
-        Player bestPlayer = HandleScore.Instance.ReadJsonAndReturnBestPlayer();
+        Player bestPlayer = HandleScore.s_Instance.ReadJsonAndReturnBestPlayer();
         if (bestPlayer != null)
         {
-            BestScore.text = "Best Score : " + bestPlayer.name + " : " + bestPlayer.score;
+            BestScore.text = "Best Score : " + bestPlayer.Name + " : " + bestPlayer.Score;
         }
     }
 
     public void StartNew()
     {
-        HandleScore.Instance.SetPlayerName(input.text);
+        HandleScore.s_Instance.SetPlayerName(Input.text);
         SceneManager.LoadScene(1);
     }
 
